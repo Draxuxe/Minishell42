@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleferra <aleferra@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 09:25:27 by aleferra          #+#    #+#             */
-/*   Updated: 2022/05/24 17:24:39 by aleferra         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:01:18 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_export(t_env *env)
 	}
 }
 
-void	add_export(char *str, t_env **env, int pipe)
+void	add_export(t_app *app, char *str, t_env **env, int pipe)
 {
 	int		mode;
 	char	*tempo;
@@ -72,18 +72,17 @@ void	add_export(char *str, t_env **env, int pipe)
 	tempo = ft_substr(str, 0, ft_strchr_bis(str, '='));
 	while (tmp)
 	{
-		if (ft_strcomp_valid(tmp->key, tempo) == 0)
+		if (ft_strcomp_valid(tmp->key, tempo) == 0 || is_a_plus(tempo, tmp))
 		{
 			mode = 1;
 			if (pipe == 0)
-				reset_str(&tmp->value,
-					ft_strdup(&str[ft_strchr(str, '=') + 1]));
+				change_the_env(str, tempo, tmp);
 		}
 		tmp = tmp->next;
 	}
 	free(tempo);
 	if (mode == 0)
-		ft_add_export(env, str, pipe);
+		ft_add_export(app, env, str, pipe);
 }
 
 void	export(t_cmd *cmd, t_app **app, int pipe)
@@ -103,7 +102,7 @@ void	export(t_cmd *cmd, t_app **app, int pipe)
 				&& cmd->args_nu[i][0] == '$'))
 				print_export_err(*app, cmd->args[i]);
 			else if (ft_strchr(cmd->args[i], '='))
-				add_export(cmd->args[i], &(*app)->env, pipe);
+				add_export(*app, cmd->args[i], &(*app)->env, pipe);
 			else
 				add_name_env(*app, cmd->args[i], &(*app)->env, pipe);
 		}

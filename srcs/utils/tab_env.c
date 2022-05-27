@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tab_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleferra <aleferra@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 14:08:59 by aleferra          #+#    #+#             */
-/*   Updated: 2022/05/24 17:26:06 by aleferra         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:08:31 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,12 @@ void	add_name_env(t_app *app, char *str, t_env **env, int pipe)
 		if (pipe == 0)
 			ft_add_back_env(env, ft_add_new_env(str));
 	}
+}
+
+void	change_the_env(char *str, char *tempo, t_env *tmp)
+{
+	if (is_a_plus(tempo, tmp))
+		ft_concat(str, tmp);
+	else
+		reset_str(&tmp->value, ft_strdup(&str[ft_strchr(str, '=') + 1]));
 }

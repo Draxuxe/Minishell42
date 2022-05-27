@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:17:55 by aleferra          #+#    #+#             */
-/*   Updated: 2022/05/24 17:55:54 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:08:45 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ int			read_heredoc(t_app *app, char **s, size_t i);
 /** tab_env **/
 char		**ft_tab_env(t_env *env);
 void		add_name_env(t_app *app, char *str, t_env **env, int pipe);
+void		change_the_env(char *str, char *tempo, t_env *tmp);
 
 /** paths **/
 int			rigth_path(t_app *app, char *s, int pipe);
@@ -199,8 +200,10 @@ int			is_builtin(char *s);
 int			check_cmd(t_app *app, t_cmd *cmd);
 
 /** export **/
-void		ft_add_export(t_env **env, char *str, int pipe);
+void		ft_add_export(t_app *app, t_env **env, char *str, int pipe);
 void		print_export_err(t_app *app, char *str);
+t_bool		is_a_plus(char *tempo, t_env *tmp);
+void		ft_concat(char *str, t_env *tmp);
 
 /** last cmd **/
 int			ft_last_cmd(t_app *app, t_cmd **com);
