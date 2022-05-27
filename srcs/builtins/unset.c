@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 11:24:49 by lfilloux          #+#    #+#             */
-/*   Updated: 2022/05/24 17:58:11 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:24:54 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	unset(t_cmd *cmd, t_app **app, int pipe)
 
 	err = init_var(app);
 	i = -1;
-	while (cmd->args[++i])
+	while (cmd->args[++i] && (*app)->env)
 	{
 		tmp = (*app)->env;
 		if (cmd->args[i] && (!cmd->args[i][0]

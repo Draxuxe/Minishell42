@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 13:59:11 by lfilloux          #+#    #+#             */
-/*   Updated: 2022/05/24 17:55:47 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:31:19 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	create_oldpwd(t_app *app, int pipe)
 
 	if (pipe == 0)
 	{		
-		oldpwd = get_env(app, ft_strdup("$OLDPWD"));
-		if (!oldpwd[0])
+		oldpwd = get_env_cd(app, ft_strdup("$OLDPWD"));
+		if (!oldpwd)
 		{
 			new = ft_strjoin_properly(ft_strdup("OLDPWD="),
 					get_env(app, ft_strdup("$PWD")));

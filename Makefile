@@ -6,7 +6,7 @@
 #    By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/11 11:34:35 by aleferra          #+#    #+#              #
-#    Updated: 2022/05/18 11:15:44 by lfilloux         ###   ########.fr        #
+#    Updated: 2022/05/27 13:20:57 by lfilloux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,22 +73,19 @@ LIBS = ft readline
 CC = gcc
 C_FLAGS = $(addprefix -I, $(INCLUDE_DIRS)) -Wall -Wextra -Werror #-fsanitize=address
 
-all: rsc $(NAME)
+all: $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPENDENCIES)
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(RL_INC) -c $< -o $@
 
-$(NAME): rsc $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
+$(NAME): $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 	$(CC) $(C_FLAGS) $(RL_INC) $(RL_LIB) -lreadline $(addprefix $(OBJ_DIR)/, $(OBJ_FILES)) $(addprefix -L, $(LIB_DIRS)) $(addprefix -l, $(LIBS)) $(RL_INC) -o $(NAME)
 
 libft:
 	@make -C libft
 
-rsc:
-	@make -C $(INCLUDE_DIRS)
-
-$(LIB_EX): rsc
+$(LIB_EX): libft
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -101,4 +98,4 @@ fclean: clean fclean_libs
 
 re: fclean all
 
-.PHONY: re all libft clean fclean fclean_libs rsc
+.PHONY: re all libft clean fclean fclean_libs
