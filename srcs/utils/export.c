@@ -6,19 +6,22 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 13:45:11 by aleferra          #+#    #+#             */
-/*   Updated: 2022/05/27 15:08:00 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:34:09 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	remove_plus(t_app *app, t_env **env, char *str)
+int	remove_plus(t_env **env, char *str)
 {
 	char	*dest;
 
-	dest = ft_strjoin(ft_strtrim(ft_substr(str, 0, ft_strchr_bis(str, '=')),
-				"+"), &str[ft_strchr_bis(str, '=')]);
+	dest = ft_strjoin_properly(ft_strtrim(ft_substr
+				(str, 0, ft_strchr_bis(str, '=')),
+				"+"), ft_strdup(&str[ft_strchr_bis(str, '=')]));
 	ft_add_back_env(env, ft_add_new_env(dest));
+	if (dest)
+		free(dest);
 	return (2);
 }
 
@@ -26,7 +29,6 @@ void	ft_add_export(t_app *app, t_env **env, char *str, int pipe)
 {
 	int		i;
 	int		err;
-	char	*dest;
 
 	i = 0;
 	err = 0;
@@ -38,7 +40,7 @@ void	ft_add_export(t_app *app, t_env **env, char *str, int pipe)
 			{
 				err = 1;
 				if (str[i] == '+' && str[i + 1] == '=')
-					err = remove_plus(app, env, str);
+					err = remove_plus(env, str);
 				break ;
 			}
 		}
@@ -59,9 +61,16 @@ void	ft_concat(char *str, t_env *tmp)
 
 t_bool	is_a_plus(char *tempo, t_env *tmp)
 {
+	char	*trimed;
+
+	trimed = ft_strtrim(ft_strdup(tempo), "+");
 	if (ft_strchr(tempo, '+') == (int)ft_strlen(tmp->key)
-		&& ft_strcmp(ft_strtrim(ft_strdup(tempo), "+"), tmp->key))
+		&& ft_strcmp(trimed, tmp->key))
+	{
+		free (trimed);
 		return (TRUE);
+	}
+	free (trimed);
 	return (FALSE);
 }
 

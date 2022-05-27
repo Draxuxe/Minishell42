@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 14:08:59 by aleferra          #+#    #+#             */
-/*   Updated: 2022/05/27 15:08:31 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:31:14 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,17 @@ char	**ft_tab_env(t_env *env)
 void	add_name_env(t_app *app, char *str, t_env **env, int pipe)
 {
 	char	*exist;
+	int		i;
 
-	if (!ft_isalpha(str[0]) && str[0] != '_')
+	i = -1;
+	while (str[++i])
 	{
-		ft_putstr_fd("export: '", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		g_status = 1;
-		return ;
+		if (!(ft_isalpha(str[i]) || str[i] == '_'
+				|| (ft_isdigit(str[i]) && i > 0)))
+		{
+			print_export_err(app, str);
+			return ;
+		}
 	}
 	exist = get_env_cd(app, ft_strjoin("$", str));
 	if (exist)

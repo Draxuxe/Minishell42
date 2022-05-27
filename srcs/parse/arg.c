@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:12:32 by aleferra          #+#    #+#             */
-/*   Updated: 2022/05/24 15:22:18 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:45:43 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ size_t	last_redir(char *s)
 
 t_bool	is_only_redir(char *s)
 {
+	if (!s)
+		return (FALSE);
 	if (ft_strcmp_sensitive(s, ">"))
 		return (TRUE);
 	else if (ft_strcmp_sensitive(s, ">>"))
@@ -86,7 +88,7 @@ char	**get_args(t_app *app, char **s)
 	index = 0;
 	while (is_only_redir(s[i]))
 		i += 2;
-	while (s[i][0] == '>' || s[i][0] == '<')
+	while (s[i] && (s[i][0] == '>' || s[i][0] == '<'))
 		i += 1;
 	args = get_args_clean(app, s, index, i);
 	return (args);
