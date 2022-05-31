@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:43:35 by aleferra          #+#    #+#             */
-/*   Updated: 2022/05/24 11:21:42 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:16:49 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@ void	handle(char *line, int p_fd[2], int test, t_app *app)
 	{
 		g_status = 1;
 		app->err = TRUE;
+	}
+}
+
+void	catch_new_signal(int signal)
+{
+	if (signal == SIGINT)
+	{
+		g_status = -53;
+		close (0);
+		printf("\n");
 	}
 }
 

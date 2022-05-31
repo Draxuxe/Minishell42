@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 16:00:39 by lfilloux          #+#    #+#             */
-/*   Updated: 2022/05/24 17:46:53 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:34:22 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	rigth_path(t_app *app, char *s, int pipe)
 	err = 0;
 	if (!s[0])
 		create_oldpwd(app, pipe);
+	else if (ft_strcmp_sensitive(s, "~"))
+		err = change_dir(app, get_env(app, ft_strdup("$HOME")), pipe);
 	else if (ft_strcmp_sensitive(s, "-"))
 		err = get_old_dir(app, pipe);
 	else

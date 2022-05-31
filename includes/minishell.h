@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:17:55 by aleferra          #+#    #+#             */
-/*   Updated: 2022/05/27 15:08:45 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:17:06 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ int			ft_check_pwd(t_app *app);
 /** heredoc **/
 char		*find_env(char *str, t_app *app);
 void		handle(char *line, int p_fd[2], int test, t_app *app);
+void		catch_new_signal(int signal);
 
 /** in_utils **/
 int			which_input(t_app *app, char *file, char *name);

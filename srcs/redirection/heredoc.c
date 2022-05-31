@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:51:15 by lfilloux          #+#    #+#             */
-/*   Updated: 2022/05/27 15:42:32 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:16:42 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ int	is_heredoc(char *s)
 	return (FALSE);
 }
 
+static int	check_line(char *line, char *del)
+{
+	if (!line)
+		return (TRUE);
+	else if (!line[0] && (ft_strcmp(del, "\"\"") || ft_strcmp(del, "''")))
+		return (TRUE);
+	else if (ft_strcmp(line, del))
+		return (TRUE);
+	return (FALSE);
+}
+
 int	handle_heredoc(int input_fd, t_app *app, char *del)
 {
 	int		p_fd[2];
@@ -40,10 +51,9 @@ int	handle_heredoc(int input_fd, t_app *app, char *del)
 	input_fd = p_fd[0];
 	while (1)
 	{
+		signal(SIGINT, catch_new_signal);
 		line = readline(HEREDOC_PROMPT_SYMBOL);
-		if (!line)
-			break ;
-		if (ft_strcmp(line, del))
+		if (check_line(line, del))
 			break ;
 		arg = ft_strjoin(find_env(line, app), "\n");
 		ft_putstr_fd(arg, p_fd[1]);
