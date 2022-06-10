@@ -6,7 +6,7 @@
 /*   By: lfilloux <lfilloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 16:07:14 by lfilloux          #+#    #+#             */
-/*   Updated: 2022/05/24 17:55:41 by lfilloux         ###   ########.fr       */
+/*   Updated: 2022/06/10 12:06:00 by lfilloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,29 @@ void	print_err_cd(t_app *app, char *cmd, int err, int pipe)
 {
 	char	*error;
 
-	if (err == 5)
+	if (err != 0)
 	{
-		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
-		app->last_exit = 1;
-		g_status = 1;
-	}
-	else if (err != 0)
-	{
-		error = ft_strjoin("Minishell: cd: ", cmd);
-		perror(error);
-		if (pipe == 0)
+		if (err == 5)
+			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
+		else
 		{
-			set_env(app, "OLDPWD", ft_strdup(app->oldpwd));
-			set_env(app, "PWD", ft_strdup(app->pwd));
+			error = ft_strjoin("Minishell: cd: ", cmd);
+			perror(error);
+			if (pipe == 0)
+			{
+				set_env(app, "OLDPWD", ft_strdup(app->oldpwd));
+				set_env(app, "PWD", ft_strdup(app->pwd));
+			}
+			free(error);
 		}
 		g_status = 1;
 		app->last_exit = 1;
-		free(error);
 	}
 	else if (err == 0)
+	{
+		app->last_exit = 0;
 		g_status = 0;
+	}
 }
 
 void	print_err_exit(t_app *app, char *cmd, int err, int pipe)
